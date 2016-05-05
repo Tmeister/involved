@@ -51,7 +51,7 @@
                             <span class="caret"></span>
                         </a>
 
-                        <ul class="dropdown-menu" role="menu">
+                        <ul class="dropdown-menu profile-dropdown" role="menu">
                             <!-- Impersonation -->
                             @if (session('spark:impersonator'))
                                 <li class="dropdown-header">Impersonation</li>
