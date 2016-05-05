@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'Spark 222')</title>
+    <title>@yield('title', 'Spark')</title>
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
@@ -20,18 +20,9 @@
 
     <!-- Global Spark Object -->
     <script>
-        window.Spark = <?php echo json_encode([
-            'braintreeToken' => Spark::billsUsing('braintree') ? Braintree\ClientToken::generate() : null,
-            'cardUpFront' => Spark::needsCardUpFront(),
-            'csrfToken' => csrf_token(),
-            'roles' => Spark::roles(),
-            'stripeKey' => config('services.stripe.key'),
-            'userId' => Auth::id(),
-            'usesApi' => Spark::usesApi(),
-            'usesBraintree' => Spark::billsUsingBraintree(),
-            'usesTeams' => Spark::usesTeams(),
-            'usesStripe' => Spark::billsUsingStripe(),
-        ]) ?>;
+        window.Spark = <?php echo json_encode(array_merge(
+            Spark::scriptVariables(), []
+        )); ?>
     </script>
 </head>
 <body class="with-navbar">

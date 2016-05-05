@@ -34554,7 +34554,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             form.startProcessing();
 
-            Vue.http[method](uri, form).then(function (response) {
+            Vue.http[method](uri, JSON.parse(JSON.stringify(form))).then(function (response) {
                 form.finishProcessing();
 
                 resolve(response.data);
@@ -35347,7 +35347,7 @@ module.exports = {
             this.searching = true;
             this.noSearchResults = false;
 
-            this.$http.post('/spark/kiosk/users/search', this.searchForm).then(function (response) {
+            this.$http.post('/spark/kiosk/users/search', JSON.stringify(this.searchForm)).then(function (response) {
                 _this.searchResults = response.data;
                 _this.noSearchResults = _this.searchResults.length === 0;
 
@@ -36122,7 +36122,7 @@ module.exports = {
         refreshTaxRate: function refreshTaxRate(form) {
             var _this = this;
 
-            this.$http.post('/tax-rate', form).then(function (response) {
+            this.$http.post('/tax-rate', JSON.stringify(form)).then(function (response) {
                 _this.taxRate = response.data.rate;
             });
         },
