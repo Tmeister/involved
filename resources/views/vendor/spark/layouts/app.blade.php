@@ -18,8 +18,8 @@
     <link href="/css/app.css" rel="stylesheet">
 
     <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script src="/js/plugins/modernizr.custom.js" type="text/javascript"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="/js/plugins/modernizr.custom.js"></script>
     @yield('scripts', '')
 
             <!-- Global Spark Object -->
@@ -29,16 +29,13 @@
         ) ); ?>
     </script>
 </head>
-<body class="with-navbar fixed-header horizontal-menu" v-cloak>
+<body class="fixed-header horizontal-menu" v-cloak>
 <nav class="page-sidebar" data-pages="sidebar">
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div class="sidebar-header">
         <img src="/img/mono-logo.png" alt="logo" class="brand" data-src="/img/mono-logo.png"
              data-src-retina="/img/mono-logo.png" width="100" height="32">
         <div class="sidebar-header-controls">
-            <button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" data-pages-toggle="#appMenu">
-                <i class="fa fa-angle-down fs-16"></i>
-            </button>
             <button type="button" class="btn btn-link visible-lg-inline" data-toggle-pin="sidebar"><i
                         class="fa fs-12"></i>
             </button>
@@ -55,6 +52,13 @@
                     <span class="details">12 New Updates</span>
                 </a>
                 <span class="bg-success icon-thumbnail"><i class="pg-home"></i></span>
+            </li>
+            <li>
+                <a href="/people" class="detailed">
+                    <span class="title">People</span>
+                    <span class="details">12 New Updates</span>
+                </a>
+                <span class="icon-thumbnail"><i class="fa fa-user"></i></span>
             </li>
         </ul>
         <div class="clearfix"></div>
@@ -73,15 +77,9 @@
         </div>
     </div>
 
-    <div class="page-content-wrapper sm-gutter">
-        <div class="content">
-            <div class="container-fluid padding-25 sm-padding-10">
-                <!-- Main Content -->
-                @yield('content')
-            </div>
-        </div>
 
-    </div>
+    <!-- Main Content -->
+    @yield('content')
 
             <!-- Application Level Modals -->
     @if (Auth::check())
@@ -91,11 +89,10 @@
     @endif
 
             <!-- JavaScript -->
-    <script src="/js/app.js"></script>
     <script src="/js/sweetalert.min.js"></script>
+    <script src="/js/app.js"></script>
     <script src="/js/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
     <script src="/js/pages.min.js"></script>
-    <script src="/js/scripts.js" type="text/javascript"></script>
 </div>
 </body>
 </html>

@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', 'WelcomeController@show');
-
-Route::get('/dashboard', 'HomeController@show');
+Route::get( '/', 'WelcomeController@show' );
+Route::get( '/dashboard', 'HomeController@show' );
+Route::get( '/people', 'PeopleController@show' );
