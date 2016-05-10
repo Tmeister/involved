@@ -41,7 +41,7 @@ class SparkServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $usesApi = false;
+    protected $usesApi = true;
 
     /**
      * Finish configuring Spark for the application.

@@ -11,9 +11,23 @@
 |
 */
 
-Route::group([
-    'prefix' => 'api',
-    'middleware' => 'auth:api'
+Route::group( [
+	'prefix'     => 'api',
+	'middleware' => 'auth:api'
 ], function () {
-    //
-});
+
+	Route::get( 'test', function () {
+		return [ 'name' => 'Tmeister' ];
+	} );
+
+	Route::resource(
+		'lead',
+		'LeadController',
+		[ 'only' => [ 'show', 'store' ] ] );
+
+	Route::resource(
+		'hit',
+		'HitController',
+		[ 'only' => [ 'show', 'store' ] ] );
+
+} );

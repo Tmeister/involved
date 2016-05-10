@@ -2,6 +2,10 @@ Vue.component('home', {
     props: ['user'],
 
     ready() {
-        console.log('This is the home');
+
+        this.$http.get('api/test')
+            .then( response => {
+                console.log(response.data);
+            });
     }
 });

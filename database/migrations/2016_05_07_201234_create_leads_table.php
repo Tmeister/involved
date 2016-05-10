@@ -11,18 +11,13 @@ class CreateLeadsTable extends Migration {
 	 */
 	public function up() {
 		Schema::create( 'leads', function ( Blueprint $table ) {
-			$table->increments( 'id' );
+			$table->bigIncrements( 'id' );
 			$table->integer( 'team_id' )->unsigned();
-			$table->string( 'first_name' )->nullable();
-			$table->string( 'last_name' )->nullable();
-			$table->string( 'email' )->nullable();
+			$table->string( 'public_id' )->unique(); //Uuid::uuid4()
 			$table->integer( 'web_sessions' )->default( 1 );
-			$table->string( 'region' )->nullable();
-			$table->string( 'country' )->nullable();
-			$table->string( 'city' )->nullable();
-			$table->timestamp( 'last_seen' )->nullable();
+			$table->timestamp( 'last_seen' )->useCurrent();
 			$table->timestamp( 'last_contacted' );
-			$table->boolean( 'is_converted' );
+			$table->boolean( 'is_converted' )->default( 0 );
 			$table->timestamps();
 		} );
 

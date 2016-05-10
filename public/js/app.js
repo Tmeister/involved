@@ -33447,7 +33447,10 @@ Vue.component('home', {
     props: ['user'],
 
     ready: function ready() {
-        console.log('This is the home');
+
+        this.$http.get('api/test').then(function (response) {
+            console.log(response.data);
+        });
     }
 });
 
