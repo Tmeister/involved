@@ -15,7 +15,9 @@
         "barryvdh/laravel-ide-helper": "^2.1",
         "barryvdh/laravel-cors": "^0.8.0",
         "ua-parser/uap-php": "3.4.5",
-        "jenssegers/agent": "~2.1"
+        "jenssegers/agent": "~2.1",
+        "snowplow/referer-parser": "~0.1",
+        "torann/geoip": "0.2.*@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

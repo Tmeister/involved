@@ -161,6 +161,7 @@ return [
 
 		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 		Barryvdh\Cors\ServiceProvider::class,
+		Torann\GeoIP\GeoIPServiceProvider::class,
 
 	],
 
@@ -207,6 +208,8 @@ return [
 		'URL'       => Illuminate\Support\Facades\URL::class,
 		'Validator' => Illuminate\Support\Facades\Validator::class,
 		'View'      => Illuminate\Support\Facades\View::class,
+		'GeoIP2'     => Torann\GeoIP\GeoIPFacade::class,
+
 
 	],
 

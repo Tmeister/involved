@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Agent;
+use App\Domains;
+use App\Geoip;
 use App\Helpers\MobileDetect;
 use App\Helpers\UserAgent;
 use App\Hit;
 use App\Lead;
+use App\Referer;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Log;
 use App\Device;
+use GeoIP2;
 
 class HitController extends Controller {
 
@@ -36,30 +41,43 @@ class HitController extends Controller {
 	 * @return array
 	 */
 	public function store( Request $request ) {
-		if ( ! $this->validate_request( $request ) ) {
+		if ( ! $this->validateRequest( $request ) ) {
 			return response( 'Not found.', 401 );
 		}
 
-		$lead = $this->update_lead_data( $request );
-		if ( ! $lead ) {
+		$lead_id = $this->updateLeadData( $request );
+		if ( ! $lead_id ) {
 			return response( 'Not found.', 401 );
 		}
 
 		$hit             = new Hit();
-		$hit->session_id = $this->get_session_id( $request );
-		$hit->agent_id   = $this->get_agent_id();
-		$hit->device_id  = $this->get_device_id();
-
-		//Get referer data
-		//get domain data
+		$hit->lead_id    = $lead_id;
+		$hit->session_id = $this->getSessionId( $request );
+		$hit->agent_id   = $this->getAgentId();
+		$hit->device_id  = $this->getDeviceId();
+		$hit->referer_id = $this->getRefererId( $request->headers->get( 'referer' ) );
+		$hit->geoip_id   = $this->getGeoIpId();
 		//get Geo IP data
+		try {
+			$hit->save();
 
-		Log::debug( $hit );
+			return [
+				'status' => 200,
+				'error'  => false,
+				'hit'    => $hit
+			];
+		} catch ( Exception $e ) {
+			return [
+				'status'  => 500,
+				'error'   => true,
+				'message' => $e->getMessage()
+			];
+		}
 
-		return [ 'status' => 'ok' ];
+
 	}
 
-	private function validate_request( $request ) {
+	private function validateRequest( $request ) {
 		$required = [ 'lead_id', 'session_id', 'web_session' ];
 		foreach ( $required as $field ) {
 			if ( ! isset( $request[ $field ] ) ) {
@@ -70,7 +88,7 @@ class HitController extends Controller {
 		return true;
 	}
 
-	private function update_lead_data( $request ) {
+	private function updateLeadData( Request $request ) {
 		$lead_id     = $request['lead_id'];
 		$web_session = $request['web_session'] === 'true' ? true : false;
 
@@ -90,14 +108,16 @@ class HitController extends Controller {
 
 		$lead->last_seen = Carbon::now();
 
-		return $lead->save();
+		$lead->save();
+
+		return $lead->id;
 	}
 
-	private function get_session_id( $request ) {
+	private function getSessionId( Request $request ) {
 		return $request['session_id'];
 	}
 
-	private function get_agent_id() {
+	private function getAgentId() {
 
 		if ( ! $this->uaParser ) {
 			return false;
@@ -115,19 +135,72 @@ class HitController extends Controller {
 
 	}
 
-	private function get_device_id() {
+	private function getDeviceId() {
 		$mobileDetect             = new MobileDetect();
 		$data                     = $mobileDetect->detectDevice();
 		$data['platform']         = $this->uaParser->operatingSystem->family;
 		$data['platform_version'] = $this->uaParser->getOperatingSystemVersion();
 		unset( $data['is_robot'] );
 
-		Log::info( $data );
-
 		$device = Device::firstOrCreate( $data, [ 'kind', 'model', 'platform', 'platform_version' ] );
 
 		return $device->id;
 
+	}
+
+	private function getRefererId( $referer ) {
+		$url    = parse_url( $referer );
+		$parts  = explode( ".", $url['host'] );
+		$domain = array_pop( $parts );
+
+		if ( sizeof( $parts ) > 0 ) {
+			$domain = array_pop( $parts ) . "." . $domain;
+		}
+
+		$domainId = $this->getDomainId( $domain );
+
+		$data = [
+			'domain_id' => $domainId,
+			'url'       => $referer,
+			'host'      => $url['host'],
+		];
+
+		$referer = Referer::firstOrCreate( $data, [ 'domain_id', 'url', 'host' ] );
+
+		return $referer->id;
+
+	}
+
+	private function getDomainId( $domain ) {
+		$domain = Domains::firstOrCreate( [ 'name' => $domain ], [ 'name' ] );
+
+		return $domain->id;
+	}
+
+	private function getGeoIpId() {
+		$geo = GeoIP2::getLocation();
+
+		$data = [
+			'latitude'     => $geo['lat'],
+			'longitude'    => $geo['lon'],
+			'country_code' => $geo['isoCode'],
+			'country_name' => $geo['country'],
+			'region'       => $geo['state'],
+			'city'         => $geo['city'],
+			'postal_code'  => $geo['postal_code']
+		];
+
+		$newGeo = Geoip::firstOrCreate( $data, [
+			'latitude',
+			'longitude',
+			'country_code',
+			'country_name',
+			'region',
+			'city',
+			'postal_code'
+		] );
+
+		return $newGeo->id;
 	}
 
 }
