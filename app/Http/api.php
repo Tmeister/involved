@@ -23,11 +23,11 @@ Route::group( [
 	Route::resource(
 		'lead',
 		'LeadController',
-		[ 'only' => [ 'show', 'store' ] ] );
+		[ 'only' => [ 'index', 'show', 'store' ] ] );
 
 	Route::resource(
 		'hit',
 		'HitController',
-		[ 'only' => [ 'show', 'store' ] ] );
+		[ 'only' => [ 'index', 'show', 'store' ] ] );
 
 } );

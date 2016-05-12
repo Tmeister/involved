@@ -15,4 +15,8 @@ class Geoip extends Model {
 		'city',
 		'postal_code'
 	];
+
+	public function hits() {
+		return $this->belongsTo( Hit::class, 'id', 'geoip_id' );
+	}
 }

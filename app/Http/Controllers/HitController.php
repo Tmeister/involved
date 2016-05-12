@@ -77,6 +77,19 @@ class HitController extends Controller {
 
 	}
 
+	public function index( Request $request ) {
+		return [ 'index' => true ];
+	}
+
+	/**
+	 * Private methods
+	 */
+
+	/**
+	 * @param $request
+	 *
+	 * @return bool
+	 */
 	private function validateRequest( $request ) {
 		$required = [ 'lead_id', 'session_id', 'web_session' ];
 		foreach ( $required as $field ) {
@@ -88,6 +101,11 @@ class HitController extends Controller {
 		return true;
 	}
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return int
+	 */
 	private function updateLeadData( Request $request ) {
 		$lead_id     = $request['lead_id'];
 		$web_session = $request['web_session'] === 'true' ? true : false;
@@ -113,10 +131,18 @@ class HitController extends Controller {
 		return $lead->id;
 	}
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
 	private function getSessionId( Request $request ) {
 		return $request['session_id'];
 	}
 
+	/**
+	 * @return int
+	 */
 	private function getAgentId() {
 
 		if ( ! $this->uaParser ) {
@@ -135,6 +161,9 @@ class HitController extends Controller {
 
 	}
 
+	/**
+	 * @return mixed
+	 */
 	private function getDeviceId() {
 		$mobileDetect             = new MobileDetect();
 		$data                     = $mobileDetect->detectDevice();
@@ -148,6 +177,11 @@ class HitController extends Controller {
 
 	}
 
+	/**
+	 * @param $referer
+	 *
+	 * @return mixed
+	 */
 	private function getRefererId( $referer ) {
 		$url    = parse_url( $referer );
 		$parts  = explode( ".", $url['host'] );
@@ -171,12 +205,20 @@ class HitController extends Controller {
 
 	}
 
+	/**
+	 * @param $domain
+	 *
+	 * @return mixed
+	 */
 	private function getDomainId( $domain ) {
 		$domain = Domains::firstOrCreate( [ 'name' => $domain ], [ 'name' ] );
 
 		return $domain->id;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	private function getGeoIpId() {
 		$geo = GeoIP2::getLocation();
 
@@ -192,12 +234,7 @@ class HitController extends Controller {
 
 		$newGeo = Geoip::firstOrCreate( $data, [
 			'latitude',
-			'longitude',
-			'country_code',
-			'country_name',
-			'region',
-			'city',
-			'postal_code'
+			'longitude'
 		] );
 
 		return $newGeo->id;

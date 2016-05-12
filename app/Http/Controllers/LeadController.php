@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Hit;
 use App\Lead;
 use App\Team;
-use Illuminate\Http\Request;
+use Auth;
+use DB;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
+use Laravel\Spark\Spark;
+use Request;
 
-use App\Http\Requests;
 use Log;
 use Ramsey\Uuid\Uuid;
+use Response;
 
 class LeadController extends Controller {
 
@@ -19,6 +25,11 @@ class LeadController extends Controller {
 		$this->middleware( 'cors' );
 	}
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return array|Response
+	 */
 	public function store( Request $request ) {
 		$app_id = $request['app_id'] ? $request['app_id'] : false;
 
@@ -46,6 +57,21 @@ class LeadController extends Controller {
 			'leadId' => $lead->public_id
 		];
 
+	}
+
+	public function index( Request $request ) {
+		$teamId = Auth::user()->currentTeam()->id;
+		$leads  = Lead::with( 'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device' )
+		              ->select( 'id', 'public_id', 'last_seen' )
+		              ->where( 'team_id', $teamId )
+		              ->orderBy( 'last_seen', 'desc' )
+		              ->take( 50 )
+		              ->get();
+
+		return [
+			'count' => count( $leads ),
+			'leads' => $leads
+		];
 	}
 
 }
