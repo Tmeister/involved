@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="m-l-10 m-r-50">
         <div class="navbar-header">
             <!-- Collapsed Hamburger -->
             <div class="hamburger">

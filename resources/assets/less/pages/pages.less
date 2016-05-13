@@ -35,22 +35,22 @@ Generated From LESS
 29. Print
 30. Demo
 -------------------------------------------------------------------*/
-
 // Mixins tools
 @import "mixins";
 @import "modules/direction";
-
 // Includes of Modules
 @import "modules";
-
 // Responsive Util
 @import "responsive";
 
 //Change your theme here 
-@theme-name:"default";
+@theme-name: "simple";
 @direction: ltr; // use `rtl` or `ltr
 
 .theme {
-    @import "themes/@{theme-name}/theme";
+  @import "themes/@{theme-name}/theme";
 }
+
 .theme();
+
+@import "custom";

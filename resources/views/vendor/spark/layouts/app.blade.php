@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'Spark ')</title>
+    <title>@yield('title', 'Spark 1')</title>
 
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css' rel='stylesheet'
           type='text/css'>
@@ -29,29 +29,22 @@
         ) ); ?>
     </script>
 </head>
-<body class="fixed-header horizontal-menu" v-cloak>
+<body class="fixed-header menu-behind" v-cloak>
 <nav class="page-sidebar" data-pages="sidebar">
     <!-- BEGIN SIDEBAR MENU HEADER-->
     <div class="sidebar-header">
-        <img src="/img/mono-logo.png" alt="logo" class="brand" data-src="/img/mono-logo.png"
-             data-src-retina="/img/mono-logo.png" width="100" height="32">
-        <div class="sidebar-header-controls">
-            <button type="button" class="btn btn-link visible-lg-inline" data-toggle-pin="sidebar"><i
-                        class="fa fs-12"></i>
-            </button>
-        </div>
     </div>
     <!-- END SIDEBAR MENU HEADER-->
     <!-- START SIDEBAR MENU -->
-    <div class="sidebar-menu">
+    <div class="sidebar-menu" data-pages="sidebar">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
             <li class="m-t-30 ">
-                <a href="/dashboard" class="detailed">
+                <a href="/home" class="detailed">
                     <span class="title">Dashboard</span>
                     <span class="details">12 New Updates</span>
                 </a>
-                <span class="bg-success icon-thumbnail"><i class="pg-home"></i></span>
+                <span class="icon-thumbnail"><i class="pg-home"></i></span>
             </li>
             <li>
                 <a href="/people" class="detailed">
@@ -79,7 +72,11 @@
 
 
     <!-- Main Content -->
-    @yield('content')
+    <div class="page-content-wrapper">
+        <div class="content">
+            @yield('content')
+        </div>
+    </div>
 
             <!-- Application Level Modals -->
     @if (Auth::check())

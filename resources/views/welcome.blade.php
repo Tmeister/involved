@@ -6,16 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Spark</title>
+    <title>Involved</title>
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
 
     <style>
         body, html {
-            background: url('/img/spark-bg.png');
-            background-repeat: repeat;
-            background-size: 300px 200px;
             height: 100%;
             margin: 0;
         }
@@ -66,27 +63,20 @@
             text-transform: uppercase;
             width: 100px;
         }
+
+        h1{
+            font-family: 'Open Sans';
+            font-size: 5em;
+            color: rgba(0, 0, 0, .15);
+            font-weight: 100;
+        }
     </style>
 </head>
 <body>
     <div class="full-height flex-column">
-        <nav class="links">
-            <a href="/login" style="margin-right: 15px;">
-                <button>
-                    Login
-                </button>
-            </a>
-
-            <a href="/register">
-                <button>
-                    Register
-                </button>
-            </a>
-        </nav>
-
         <div class="flex-fill flex-center">
             <h1 class="text-center">
-                <img src="/img/color-logo.png">
+                <h1>Involved - Soon</h1>
             </h1>
         </div>
     </div>

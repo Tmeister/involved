@@ -8,7 +8,7 @@
     inline-template>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container" v-if="user">
+        <div class="m-l-10 m-r-50" v-if="user">
             <div class="navbar-header">
                 <!-- Branding Image -->
                 @include('spark::nav.brand')
@@ -24,15 +24,15 @@
                 <ul class="nav navbar-nav navbar-right">
                     @includeIf('spark::nav.user-right')
 
-                    <!-- Notifications -->
-                    <li>
-                        <a @click="showNotifications" class="has-activity-indicator">
-                            <div class="navbar-icon">
-                                <i class="activity-indicator" v-if="hasUnreadNotifications || hasUnreadAnnouncements"></i>
-                                <i class="icon fa fa-bell"></i>
-                            </div>
-                        </a>
-                    </li>
+                    {{--<!-- Notifications -->--}}
+                    {{--<li>--}}
+                        {{--<a @click="showNotifications" class="has-activity-indicator">--}}
+                            {{--<div class="navbar-icon">--}}
+                                {{--<i class="activity-indicator" v-if="hasUnreadNotifications || hasUnreadAnnouncements"></i>--}}
+                                {{--<i class="icon fa fa-bell"></i>--}}
+                            {{--</div>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
 
                     <li class="dropdown">
                         <!-- User Photo / Name -->
