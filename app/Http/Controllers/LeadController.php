@@ -6,12 +6,7 @@ use App\Hit;
 use App\Lead;
 use App\Team;
 use Auth;
-use DB;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Query\Builder;
-use Laravel\Spark\Spark;
-use Request;
-
+use Illuminate\Http\Request;
 use Log;
 use Ramsey\Uuid\Uuid;
 use Response;
@@ -22,7 +17,6 @@ class LeadController extends Controller {
 	 * LeadController constructor.
 	 */
 	public function __construct() {
-		$this->middleware( 'cors' );
 	}
 
 	/**
@@ -31,7 +25,8 @@ class LeadController extends Controller {
 	 * @return array|Response
 	 */
 	public function store( Request $request ) {
-		$app_id = $request['app_id'] ? $request['app_id'] : false;
+		$payload = json_decode( $request->getContent(), true );
+		$app_id  = $payload['app_id'] ? $payload['app_id'] : false;
 
 		if ( ! $app_id ) {
 			return response( 'Not found.', 401 );
@@ -83,17 +78,15 @@ class LeadController extends Controller {
 
 		$lead = Lead::where( 'public_id', $lead_id )->first();
 
-		$hits = Hit::where( 'lead_id', $lead->id )
-		           ->orderBy('created_at', 'desc')
+		$hits = Hit::with( 'referer' )->where( 'lead_id', $lead->id )
+		           ->orderBy( 'created_at', 'desc' )
 		           ->get()
-		           ->groupBy(function($hit){
-			           return $hit->created_at->format('M d, Y');
-		           });
+		           ->groupBy( function ( $hit ) {
+			           return $hit->created_at->format( 'M d, Y' );
+		           } );
 
-		return [
-			'count' => count($hits),
-			'hits' => $hits
-		];
+
+		return $hits;
 
 	}
 

@@ -13,7 +13,7 @@
 
 Route::group( [
 	'prefix'     => 'api',
-	'middleware' => 'auth:api'
+	'middleware' => ['cors', 'auth:api']
 ], function () {
 
 	Route::get( 'test', function () {

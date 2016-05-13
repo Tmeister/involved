@@ -27,7 +27,6 @@ class HitController extends Controller {
 	 * LeadController constructor.
 	 */
 	public function __construct() {
-		$this->middleware( 'cors' );
 		try {
 			$this->uaParser = new UserAgent();
 		} catch ( \Exception $exception ) {
@@ -45,14 +44,16 @@ class HitController extends Controller {
 			return response( 'Not found.', 401 );
 		}
 
-		$lead_id = $this->updateLeadData( $request );
+		$payload = json_decode( $request->getContent(), true );
+
+		$lead_id = $this->updateLeadData( $payload );
 		if ( ! $lead_id ) {
 			return response( 'Not found.', 401 );
 		}
 
 		$hit             = new Hit();
 		$hit->lead_id    = $lead_id;
-		$hit->session_id = $this->getSessionId( $request );
+		$hit->session_id = $this->getSessionId( $payload );
 		$hit->agent_id   = $this->getAgentId();
 		$hit->device_id  = $this->getDeviceId();
 		$hit->referer_id = $this->getRefererId( $request->headers->get( 'referer' ) );
@@ -92,8 +93,9 @@ class HitController extends Controller {
 	 */
 	private function validateRequest( $request ) {
 		$required = [ 'lead_id', 'session_id', 'web_session' ];
+		$payload  = json_decode( $request->getContent(), true );
 		foreach ( $required as $field ) {
-			if ( ! isset( $request[ $field ] ) ) {
+			if ( ! isset( $payload[ $field ] ) ) {
 				return false;
 			}
 		}
@@ -106,7 +108,7 @@ class HitController extends Controller {
 	 *
 	 * @return int
 	 */
-	private function updateLeadData( Request $request ) {
+	private function updateLeadData( $request ) {
 		$lead_id     = $request['lead_id'];
 		$web_session = $request['web_session'] === 'true' ? true : false;
 
@@ -136,7 +138,7 @@ class HitController extends Controller {
 	 *
 	 * @return mixed
 	 */
-	private function getSessionId( Request $request ) {
+	private function getSessionId( $request ) {
 		return $request['session_id'];
 	}
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.31 on 2016-05-10.
+ * Generated for Laravel 5.2.31 on 2016-05-13.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -10885,6 +10885,32 @@ namespace {
          */
         public static function getNames(){
             return \Illuminate\View\Factory::getNames();
+        }
+        
+    }
+
+
+    class GeoIP2 extends \Torann\GeoIP\GeoIPFacade{
+        
+        /**
+         * Save location data in the session.
+         *
+         * @return void 
+         * @static 
+         */
+        public static function saveLocation(){
+            \Torann\GeoIP\GeoIP::saveLocation();
+        }
+        
+        /**
+         * Get location from IP.
+         *
+         * @param string $ip Optional
+         * @return array 
+         * @static 
+         */
+        public static function getLocation($ip = null){
+            return \Torann\GeoIP\GeoIP::getLocation($ip);
         }
         
     }
