@@ -61,17 +61,40 @@ class LeadController extends Controller {
 
 	public function index( Request $request ) {
 		$teamId = Auth::user()->currentTeam()->id;
-		$leads  = Lead::with( 'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device' )
-		              ->select( 'id', 'public_id', 'last_seen' )
-		              ->where( 'team_id', $teamId )
-		              ->orderBy( 'last_seen', 'desc' )
-		              ->take( 50 )
-		              ->get();
+
+		if ( ! $teamId ) {
+			return response( 'Team Not found.', 401 );
+		}
+
+		$data = Lead::with( 'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device' )
+		            ->select( 'id', 'public_id', 'last_seen' )
+		            ->where( 'team_id', $teamId )
+		            ->orderBy( 'last_seen', 'desc' )
+		            ->paginate( 50 );
+
+		return $data;
+	}
+
+	public function show( $lead_id ) {
+
+		if ( empty( $lead_id ) ) {
+			return response( 'Not lead found.', 401 );
+		}
+
+		$lead = Lead::where( 'public_id', $lead_id )->first();
+
+		$hits = Hit::where( 'lead_id', $lead->id )
+		           ->orderBy('created_at', 'desc')
+		           ->get()
+		           ->groupBy(function($hit){
+			           return $hit->created_at->format('M d, Y');
+		           });
 
 		return [
-			'count' => count( $leads ),
-			'leads' => $leads
+			'count' => count($hits),
+			'hits' => $hits
 		];
+
 	}
 
 }
