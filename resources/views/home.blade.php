@@ -2,6 +2,8 @@
 
 @section('content')
 <home :user="user" inline-template>
-    test
+    Home - Dashboard
+    <div class="inner-content full-height">
+    </div>
 </home>
 @endsection

@@ -33458,11 +33458,43 @@ Vue.component('home', {
 'use strict';
 
 Vue.component('people', {
-    props: ['user'],
+    data: function data() {
+        return {
+            leads: {},
+            lead: false,
+            hits: {}
+        };
+    },
+    created: function created() {
+        var _this = this;
 
-    ready: function ready() {
-        console.log('Im the People view......');
+        this.$http({
+            url: '/api/lead',
+            method: 'GET'
+        }).then(function (response) {
+            _this.leads = response.data;
+        }).bind(this);
+    },
+
+
+    methods: {
+        show: function show(lead) {
+            var _this2 = this;
+
+            this.lead = lead;
+            this.$http({
+                url: 'api/lead/' + lead.public_id,
+                method: 'GET'
+            }).then(function (response) {
+                if (response.status == 200) {
+                    console.log(_this2.lead.first_hit.geo);
+                    console.log('all Good');
+                    _this2.hits = response.data;
+                }
+            }).bind(this);
+        }
     }
+
 });
 
 },{}],57:[function(require,module,exports){

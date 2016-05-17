@@ -20,7 +20,7 @@
     <!-- Scripts -->
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script src="/js/plugins/modernizr.custom.js"></script>
-    @yield('scripts', '')
+
 
             <!-- Global Spark Object -->
     <script>
@@ -72,8 +72,8 @@
 
 
     <!-- Main Content -->
-    <div class="page-content-wrapper">
-        <div class="content">
+    <div class="page-content-wrapper full-height">
+        <div class="content full-height">
             @yield('content')
         </div>
     </div>
