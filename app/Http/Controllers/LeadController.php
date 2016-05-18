@@ -61,7 +61,9 @@ class LeadController extends Controller {
 			return response( 'Team Not found.', 401 );
 		}
 
-		$data = Lead::with( 'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device' )
+		$data = Lead::with(
+			'last_hit', 'last_hit.geo', 'last_hit.agent', 'last_hit.device', 'last_hit.referer',
+			'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device', 'first_hit.referer' )
 		            ->select( 'id', 'public_id', 'last_seen' )
 		            ->where( 'team_id', $teamId )
 		            ->orderBy( 'last_seen', 'desc' )
@@ -78,15 +80,23 @@ class LeadController extends Controller {
 
 		$lead = Lead::where( 'public_id', $lead_id )->first();
 
-		$hits = Hit::with( 'referer' )->where( 'lead_id', $lead->id )
+		$hits = Hit::with( 'referer' )
+		           ->where( 'lead_id', $lead->id )
 		           ->orderBy( 'created_at', 'desc' )
 		           ->get()
 		           ->groupBy( function ( $hit ) {
 			           return $hit->created_at->format( 'M d, Y' );
 		           } );
 
+		$totalHits = count( $hits );
 
-		return $hits;
+		//$hits
+
+
+		return [
+			'total_hits' => $totalHits,
+			'hits'       => $hits
+		];
 
 	}
 

@@ -44,7 +44,7 @@
                 </div>
                 <div v-if="lead" class="container-fluid m-t-30">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-12">
                             <div class="card share full-width">
                                 <div class="card-header clearfix">
                                     <h5>Lead Details</h5>
@@ -58,39 +58,65 @@
                                 </div>
                                 <div class="card-description">
                                     <div class="p-b-10 m-b-10" style="border-bottom: 1px solid rgba(0,0,0,0.05)">
-                                        <span>Last Viewed</span>
+                                        <h5>Last Viewed</h5>
                                         <p>
-                                            <a href="#">http://some.com</a>
+                                            <span>@{{ lead.last_hit.created_at | date }}</span><br>
+                                            <a href="@{{ lead.last_hit.referer.url }}">@{{ lead.last_hit.referer.url }}</a>
                                         </p>
                                     </div>
-                                    @for ($i = 0; $i < 10; $i++)
-                                    <div class="p-b-10 m-b-10" style="border-bottom: 1px solid rgba(0,0,0,0.05)">
-                                        <span>Another</span>
-                                        <p>
-                                            <a href="#">http://some.com</a>
-                                        </p>
-                                    </div>
-                                    @endfor
 
+                                    <div class="p-b-10 m-b-10" style="border-bottom: 1px solid rgba(0,0,0,0.05)">
+                                        <h5>First Viewed</h5>
+                                        <p>
+                                            <span>@{{ lead.first_hit.created_at | date }}</span><br>
+                                            <a href="@{{ lead.first_hit.referer.url }}">@{{ lead.first_hit.referer.url }}</a>
+                                        </p>
+                                    </div>
+
+                                    <div class="p-b-10 m-b-10" style="border-bottom: 1px solid rgba(0,0,0,0.05)">
+                                        <h5>Pages Viewed</h5>
+                                        <p>
+                                            <span>@{{ hits.total_hits }}</span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="card share full-width">
                                 <div class="card-header clearfix">
-                                    {{--<div class="user-pic">--}}
-                                    {{--<img alt="Profile Image" width="33" height="33" data-src-retina="assets/img/profiles/8x.jpg" data-src="assets/img/profiles/8.jpg" src="assets/img/profiles/8x.jpg">--}}
-                                    {{--</div>--}}
                                     <h5>History</h5>
-                                    <h6>Shared a Tweet
-                                        <span class="location semi-bold"><i class="fa fa-map-marker"></i> SF, California</span>
+                                    <h6>
+                                        <span class="location semi-bold">&nbsp;</span>
                                     </h6>
                                 </div>
                                 <div class="card-description">
-                                    <p>What you think, you become. What you feel, you attract. What you imagine, you
-                                        create
-                                        - Buddha. <a href="#">#quote</a></p>
-                                    <div class="via">via Twitter</div>
+                                    <div v-for="day in hits.hits" class="p-b-10 m-b-10"
+                                         style="border-bottom: 1px solid rgba(0,0,0,0.05)">
+                                        <h2 class="text-danger bold">@{{ day[0].created_at | date }}</h2>
+                                        <table class="table table-condensed table-hover">
+                                            <thead>
+                                            <tr role="row">
+                                                <th style="width:75%;" class="sorting_disabled" rowspan="1" colspan="1">
+                                                    URL
+                                                </th>
+                                                <th style="width: 25%;" class="sorting_disabled" rowspan="1"
+                                                    colspan="1">Viewed
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-for="hit in day">
+                                                <td class="v-align-middle semi-bold">@{{ hit.referer.url }}</td>
+                                                <td class="text-right">
+                                                    <span class="hint-text small semi-bold">@{{ hit.created_at | small-time }}</span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

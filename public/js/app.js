@@ -33487,8 +33487,6 @@ Vue.component('people', {
                 method: 'GET'
             }).then(function (response) {
                 if (response.status == 200) {
-                    console.log(_this2.lead.first_hit.geo);
-                    console.log('all Good');
                     _this2.hits = response.data;
                 }
             }).bind(this);
@@ -34391,6 +34389,13 @@ Vue.filter('datetime', function (value) {
 });
 
 /**
+ * Format the given date as a timestamp.
+ */
+Vue.filter('small-time', function (value) {
+    return moment.utc(value).local().format('h:mm:ss A');
+});
+
+/**
  * Format the given date into a relative time.
  */
 Vue.filter('relative', function (value) {
@@ -34413,6 +34418,10 @@ Vue.filter('relative', function (value) {
     });
 
     return moment.utc(value).local().fromNow();
+});
+
+Vue.filter('object-name', function (value) {
+    console.log(value[0]);
 });
 
 },{}],109:[function(require,module,exports){

@@ -18,7 +18,13 @@ class Lead extends Model {
 
 	public function first_hit() {
 		return $this->hasOne( Hit::class )
-		            ->select( 'id', 'lead_id', 'device_id', 'agent_id', 'referer_id', 'geoip_id' )
+		            ->select( 'id', 'lead_id', 'device_id', 'agent_id', 'referer_id', 'geoip_id', 'created_at' )
+		            ->orderBy( 'id', 'asc' );
+	}
+
+	public function last_hit() {
+		return $this->hasOne( Hit::class )
+		            ->select( 'id', 'lead_id', 'device_id', 'agent_id', 'referer_id', 'geoip_id', 'created_at' )
 		            ->orderBy( 'id', 'desc' );
 	}
 }

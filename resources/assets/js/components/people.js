@@ -25,8 +25,6 @@ Vue.component('people', {
                 method: 'GET'
             }).then((response) => {
                 if(response.status == 200) {
-                    console.log(this.lead.first_hit.geo);
-                    console.log('all Good');
                     this.hits = response.data;
                 }
             }).bind(this);
