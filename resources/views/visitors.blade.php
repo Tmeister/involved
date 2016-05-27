@@ -67,7 +67,7 @@ page-aside-fixed
                                     <span v-if="!lead.last_hit.geo.city"> - </span>
                                 </td>
                                 <td>
-                                    <span><i class="wb wb-time text-primary"></i> @{{ lead.first_hit.created_at | date }}</span>
+                                    <span><i class="wb wb-time text-primary"></i> @{{ lead.first_hit.created_at | datetime }}</span>
                                 </td>
                             </tr>
                             </tbody>
