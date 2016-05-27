@@ -61,7 +61,7 @@ class LeadController extends Controller {
 			return response( 'Team Not found.', 401 );
 		}
 
-		$data = Lead::with(
+		$data = Lead::has('hits')->with(
 			'last_hit', 'last_hit.geo', 'last_hit.agent', 'last_hit.device', 'last_hit.referer',
 			'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device', 'first_hit.referer' )
 		            ->select( 'id', 'public_id', 'last_seen' )

@@ -2,7 +2,7 @@ Vue.component('people', {
 
     data(){
       return {
-          leads: {},
+          leads: false,
           lead: false,
           hits: {}
       }

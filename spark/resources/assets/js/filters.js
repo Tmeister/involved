@@ -13,13 +13,6 @@ Vue.filter('datetime', value => {
     return moment.utc(value).local().format('MMMM Do, YYYY h:mm A');
 });
 
-/**
- * Format the given date as a timestamp.
- */
-Vue.filter('small-time', value => {
-    return moment.utc(value).local().format('h:mm:ss A');
-});
-
 
 /**
  * Format the given date into a relative time.
@@ -30,22 +23,18 @@ Vue.filter('relative', value => {
             future: "in %s",
             past:   "%s",
             s:  "1s",
-            m:  "m",
+            m:  "1m",
             mm: "%dm",
             h:  "1h",
             hh: "%dh",
             d:  "1d",
             dd: "%dd",
-            M:  "1m",
-            MM: "%dm",
+            M:  "1 month ago",
+            MM: "%d months ago",
             y:  "1y",
             yy: "%dy"
         }
     });
 
     return moment.utc(value).local().fromNow();
-});
-
-Vue.filter('object-name', value => {
-    console.log(value[0]);
 });

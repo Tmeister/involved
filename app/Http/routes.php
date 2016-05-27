@@ -13,4 +13,7 @@
 
 Route::get( '/', 'WelcomeController@show' );
 Route::get( '/home', 'HomeController@show' );
-Route::get( '/people', 'PeopleController@show' );
+Route::get( '/visitors', 'VisitorsController@show' );
+Route::get( '/messages', 'MessagesController@show' );
+Route::get( '/livechat', 'ChatController@show' );
+Route::get( '/webrules', 'WebRulesController@show' );
