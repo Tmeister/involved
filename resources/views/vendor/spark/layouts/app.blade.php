@@ -24,7 +24,6 @@
         <link rel="stylesheet" href="/theme/vendor/asscrollable/asScrollable.css">
         <link rel="stylesheet" href="/theme/vendor/switchery/switchery.css">
         <link rel="stylesheet" href="/theme/vendor/intro-js/introjs.css">
-        <link rel="stylesheet" href="/theme/vendor/slidepanel/slidePanel.css">
         <link rel="stylesheet" href="/theme/vendor/jquery-mmenu/jquery-mmenu.css">
         <link rel="stylesheet" href="/theme/vendor/flag-icon-css/flag-icon.css">
         <!-- Fonts -->
@@ -57,7 +56,7 @@
         </script>
     </head>
 
-    <body class="site-navbar-small" v-cloak>
+    <body class="site-navbar-small @yield('extra-body-classes')" v-cloak>
         @include('shared/navbar')
         @include('shared/menu')
         @yield('page')
@@ -87,7 +86,6 @@
         <script src="/theme/vendor/switchery/switchery.min.js"></script>
         <script src="/theme/vendor/intro-js/intro.js"></script>
         <script src="/theme/vendor/screenfull/screenfull.js"></script>
-        <script src="/theme/vendor/slidepanel/jquery-slidePanel.js"></script>
         <!-- Scripts -->
         <script src="/theme/js/core.js"></script>
         <script src="/theme//js/site.js"></script>
@@ -99,7 +97,6 @@
         <script src="/theme/js/configs/config-tour.js"></script>
         <script src="/theme/js/components/asscrollable.js"></script>
         <script src="/theme/js/components/animsition.js"></script>
-        <script src="/theme/js/components/slidepanel.js"></script>
         <script src="/theme/js/components/switchery.js"></script>
 
         <script>

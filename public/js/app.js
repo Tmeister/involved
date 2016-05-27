@@ -31107,17 +31107,7 @@ Vue.component('people', {
 
     methods: {
         show: function show(lead) {
-            var _this2 = this;
-
-            this.lead = lead;
-            this.$http({
-                url: 'api/lead/' + lead.public_id,
-                method: 'GET'
-            }).then(function (response) {
-                if (response.status == 200) {
-                    _this2.hits = response.data;
-                }
-            }).bind(this);
+            window.location = '/visitors/' + lead;
         }
     }
 

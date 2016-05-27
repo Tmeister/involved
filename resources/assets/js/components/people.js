@@ -19,15 +19,7 @@ Vue.component('people', {
 
     methods: {
         show(lead){
-            this.lead = lead;
-            this.$http({
-                url: 'api/lead/' + lead.public_id,
-                method: 'GET'
-            }).then((response) => {
-                if(response.status == 200) {
-                    this.hits = response.data;
-                }
-            }).bind(this);
+            window.location = '/visitors/' + lead
         }
     }
 

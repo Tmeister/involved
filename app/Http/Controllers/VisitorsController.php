@@ -22,4 +22,8 @@ class VisitorsController extends Controller {
 		return view( 'visitors' );
 	}
 
+	public function single($id){
+		return 'Ok ' . $id;
+	}
+
 }

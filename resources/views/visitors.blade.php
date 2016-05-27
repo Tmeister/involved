@@ -1,30 +1,44 @@
 @extends('spark::layouts.app')
 
+@section('extra-body-classes')
+page-aside-fixed
+@endsection()
+
 @section('page')
     <people inline-template>
-        <div class="page animsition bg-white">
+        <div class="page animsition bg-white" >
             <div class="page-aside">
                 <div class="page-aside-switch">
                     <i class="icon wb-chevron-left" aria-hidden="true"></i>
                     <i class="icon wb-chevron-right" aria-hidden="true"></i>
                 </div>
-                <div class="page-aside-inner scrollable scrollable-vertical is-disabled" data-plugin="pageAsideScroll"
-                     style="position: relative;">
-                    <div data-role="container" class="scrollable-container" style="">
-                        <div data-role="content" class="scrollable-content">
-                            <div class="page-aside-section">
-                                <h5 class="page-aside-title">FILTER 1</h5>
-                            </div>
-                            <div class="page-aside-section">
-                                <h5 class="page-aside-title">FILTER 2</h5>
-                            </div>
+                <div class="page-aside-inner" data-plugin="pageAsideScroll">
+                    <div data-role="container">
+                        <div data-role="content">
+                            <section class="page-aside-section">
+                                <h5 class="page-aside-title">Main</h5>
+                                <div class="list-group">
+                                    <a class="list-group-item active" href="javascript:void(0)"><i class="icon wb-dashboard" aria-hidden="true"></i>Overview</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-pluse" aria-hidden="true"></i>Activity</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-heart" aria-hidden="true"></i>Dearest</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-folder" aria-hidden="true"></i>Folders</a>
+                                </div>
+                            </section>
+                            <section class="page-aside-section">
+                                <h5 class="page-aside-title">Filter</h5>
+                                <div class="list-group">
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-image" aria-hidden="true"></i>Images</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-volume-high" aria-hidden="true"></i>Audio</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-camera" aria-hidden="true"></i>Video</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-file" aria-hidden="true"></i>Notes</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-link-intact" aria-hidden="true"></i>Links</a>
+                                    <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-order" aria-hidden="true"></i>Files</a>
+                                </div>
+                            </section>
                         </div>
                     </div>
-                    <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false">
-                        <div class="scrollable-bar-handle" style="height: 386.942px;"></div>
-                    </div>
                 </div>
-
+                <!---page-aside-inner-->
             </div>
             <div class="page-main">
                 <div class="page-content page-content-table" data-selectable="selectable">
@@ -42,7 +56,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="lead in leads.data">
+                            <tr v-for="lead in leads.data" data-user-id="@{{ lead.public_id }}" @click="show(lead.public_id);">
                                 <td><span>Visitor @{{lead.id}}</span></td>
                                 <td>
                                     <span class="flag-icon flag-icon-@{{ lead.last_hit.geo.country_code | lowercase }} flag-icon-squared"></span>
@@ -52,7 +66,9 @@
                                     <span v-if="lead.last_hit.geo.city">@{{ lead.last_hit.geo.city  }}</span>
                                     <span v-if="!lead.last_hit.geo.city"> - </span>
                                 </td>
-                                <td><span>@{{ lead.first_hit.created_at | relative }}</span></td>
+                                <td>
+                                    <span><i class="wb wb-time text-primary"></i> @{{ lead.first_hit.created_at | date }}</span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
