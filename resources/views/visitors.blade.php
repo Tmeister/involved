@@ -4,7 +4,7 @@
 page-aside-fixed
 @endsection()
 
-@section('page')
+@section('content')
     <people inline-template>
         <div class="page animsition bg-white" >
             <div class="page-aside">

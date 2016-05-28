@@ -23,7 +23,7 @@ class VisitorsController extends Controller {
 	}
 
 	public function single($id){
-		return 'Ok ' . $id;
+		return view( 'visitor-details' );
 	}
 
 }

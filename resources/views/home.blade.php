@@ -1,6 +1,6 @@
 @extends('spark::layouts.app')
 
-@section('page')
+@section('content')
 <home :user="user" inline-template>
     <div class="page animsition">
         <div class="page-header">
