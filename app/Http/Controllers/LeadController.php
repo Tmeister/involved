@@ -78,23 +78,18 @@ class LeadController extends Controller {
 			return response( 'Not lead found.', 401 );
 		}
 
-		$lead = Lead::where( 'public_id', $lead_id )->first();
+		$lead = Lead::with('first_hit')->where( 'public_id', $lead_id )->first();
 
 		$hits = Hit::with( 'referer' )
 		           ->where( 'lead_id', $lead->id )
 		           ->orderBy( 'created_at', 'desc' )
-		           ->get()
-		           ->groupBy( function ( $hit ) {
-			           return $hit->created_at->format( 'M d, Y' );
-		           } );
-
-		$totalHits = count( $hits );
-
-		//$hits
-
+		           ->get();
+//		           ->groupBy( function ( $hit ) {
+//			           return $hit->created_at->format( 'M d, Y' );
+//		           } );
 
 		return [
-			'total_hits' => $totalHits,
+			'lead' => $lead,
 			'hits'       => $hits
 		];
 

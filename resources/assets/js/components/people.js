@@ -1,11 +1,9 @@
 Vue.component('people', {
 
     data(){
-      return {
-          leads: false,
-          lead: false,
-          hits: {}
-      }
+        return {
+            leads: false
+        }
     },
 
     created() {

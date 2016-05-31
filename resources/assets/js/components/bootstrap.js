@@ -13,3 +13,4 @@ require('./../spark-components/bootstrap');
 
 require('./home');
 require('./people');
+require('./visitor');

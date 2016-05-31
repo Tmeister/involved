@@ -22,8 +22,8 @@ class VisitorsController extends Controller {
 		return view( 'visitors' );
 	}
 
-	public function single($id){
-		return view( 'visitor-details' );
+	public function single($visitor_id){
+		return view( 'visitor-details', compact('visitor_id') );
 	}
 
 }
