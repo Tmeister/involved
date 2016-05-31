@@ -29,38 +29,99 @@
             {{--</div>--}}
             <div class="page-content container-fluid">
                 <div class="row">
-                    <div class="col-xlg-3 col-lg-4 col-md-12">
+                    <div class="col-xlg-4 col-lg-4 col-md-12">
                         <div class="widget widget-shadow" v-if="lead">
-                            <div class="widget-content text-center bg-white padding-40 padding-bottom-0">
+                            <div class="widget-content text-center bg-white padding-40">
                                 <div class="avatar avatar-100 margin-bottom-20">
                                     <img src="http://getbootstrapadmin.com/remark/global/portraits/1.jpg" alt="">
                                 </div>
                                 <p class="font-size-20 blue-grey-700">Visitor</p>
+                                <p>
+                                    <span class="font-size-24 flag-icon flag-icon-@{{ lead.first_hit.geo.country_code | lowercase }} flag-icon-squared"></span><br>
+                                </p>
+                                <p class="font-weight-300">
+                                    <span v-if="lead.first_hit.geo.city">@{{ lead.first_hit.geo.city }}, </span><span
+                                            class="">@{{ lead.first_hit.geo.country_name }}</span>
+                                </p>
                             </div>
-                            <div class="widget-content bg-white padding-40 padding-top-0">
+                        </div>
+
+                        <div class="widget widget-shadow" v-if="lead">
+                            <div class="widget-content bg-white padding-40">
                                 <div class="padding-bottom-10">
                                     <h4 class="example-title font-weight-100">First Seen</h4>
                                     <hr class="margin-top-0 margin-bottom-10"/>
                                     <p>
-                                        <span><i class="wb wb-time text-primary"></i> @{{ lead.first_hit.created_at | datetime }}</span>
+                                        <span><i class="wb text-muted wb-time"></i> @{{ lead.first_hit.created_at | datetime }}</span>
+                                    </p>
+                                    <p>
+                                        <span><i class="wb text-muted wb-desktop"></i> @{{ lead.first_hit.device.platform }}</span>
+                                    </p>
+                                    <p>
+                                        <span><i class="wb text-muted wb-globe"></i> @{{ lead.first_hit.agent.browser }} @{{ lead.first_hit.agent.browser_version }}</span>
+                                    </p>
+                                    <p>
+                                        <span><i class="wb text-muted wb-link"></i> @{{ lead.first_hit.referer.url }}</span>
                                     </p>
                                 </div>
                                 <div class="">
                                     <h4 class="example-title font-weight-100">Last Seen</h4>
                                     <hr class="margin-top-0 margin-bottom-10"/>
                                     <p>
-                                        <span><i class="wb wb-time text-primary"></i> @{{ lead.last_seen | datetime }}</span>
+                                        <span><i class="wb text-muted wb-time"></i> @{{ lead.last_hit.created_at | datetime }}</span>
+                                    </p>
+                                    <p>
+                                        <span><i class="wb text-muted wb-desktop"></i> @{{ lead.last_hit.device.platform }}</span>
+                                    </p>
+                                    <p>
+                                        <span><i class="wb text-muted wb-globe"></i> @{{ lead.last_hit.agent.browser }} @{{ lead.last_hit.agent.browser_version }}</span>
+                                    </p>
+                                    <p>
+                                        <span><i class="wb text-muted wb-link"></i> @{{ lead.last_hit.referer.url }}</span>
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xlg-6 col-lg-8 col-md-12">
+                    <div class="col-xlg-8 col-lg-8 col-md-12">
                         <div class="widget widget-shadow">
-                            <div class="widget-content bg-white padding-20">
-                                <div v-for="hit in hits">
-                                    @{{ hit.created_at | relativeFull }}
-                                    | @{{ hit.referer.url }}
+                            <div class="widget-content bg-white padding-40">
+                                <div class="row padding-bottom-20">
+                                    <div class="col-sm-8 col-xs-6">
+                                        <div class="blue-grey-700 text-uppercase">Visitor Activity</div>
+                                    </div>
+                                    {{--<div class="col-sm-4 col-xs-6">--}}
+                                        {{--<div class="row">--}}
+                                            {{--<div class="col-xs-6 pull-right">--}}
+                                                {{--<div class="counter counter-md">--}}
+                                                    {{--<div class="counter-number-group text-nowrap">--}}
+                                                        {{--<span class="counter-number text-info">@{{ hits.length }}</span>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="counter-label blue-grey-400">Pages Views</div>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                </div>
+                                <div class="">
+                                    <table class="table table-hover table-striped" v-if="hits">
+                                        <thead>
+                                            <tr>
+                                                <th>Action</th>
+                                                <th>URL</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="hit in hits">
+                                                <td><span class="label label-primary">Page View</span></td>
+                                                {{--<td><span class="label label-success">Recovered</span></td>--}}
+                                                {{--<td><span class="label label-warning">Other</span></td>--}}
+                                                <td><span>@{{hit.referer.url}}</span></td>
+                                                <td><span>@{{ hit.created_at | datetime }}</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

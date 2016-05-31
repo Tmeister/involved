@@ -61,7 +61,7 @@ class LeadController extends Controller {
 			return response( 'Team Not found.', 401 );
 		}
 
-		$data = Lead::has('hits')->with(
+		$data = Lead::has( 'hits' )->with(
 			'last_hit', 'last_hit.geo', 'last_hit.agent', 'last_hit.device', 'last_hit.referer',
 			'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device', 'first_hit.referer' )
 		            ->select( 'id', 'public_id', 'last_seen' )
@@ -78,7 +78,10 @@ class LeadController extends Controller {
 			return response( 'Not lead found.', 401 );
 		}
 
-		$lead = Lead::with('first_hit')->where( 'public_id', $lead_id )->first();
+		$lead = Lead::with(
+			'first_hit', 'first_hit.geo', 'first_hit.agent', 'first_hit.device', 'first_hit.referer',
+			'last_hit', 'last_hit.geo', 'last_hit.agent', 'last_hit.device', 'last_hit.referer'
+		)->where( 'public_id', $lead_id )->first();
 
 		$hits = Hit::with( 'referer' )
 		           ->where( 'lead_id', $lead->id )
@@ -90,7 +93,7 @@ class LeadController extends Controller {
 
 		return [
 			'lead' => $lead,
-			'hits'       => $hits
+			'hits' => $hits
 		];
 
 	}

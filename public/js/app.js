@@ -32035,7 +32035,7 @@ Vue.filter('date', function (value) {
  * Format the given date as a timestamp.
  */
 Vue.filter('datetime', function (value) {
-    return moment.utc(value).local().format('MMMM Do, YYYY h:mm A');
+    return moment.utc(value).local().format('MMMM D, YYYY [at] h:mm A');
 });
 
 /**
