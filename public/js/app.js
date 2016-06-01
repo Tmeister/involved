@@ -31089,7 +31089,11 @@ Vue.component('home', {
 Vue.component('people', {
     data: function data() {
         return {
-            leads: false
+            leads: false,
+            next_page: false,
+            loading_icon: 'wb-plus',
+            loading_disable: '',
+            loading_label: 'Load  More'
         };
     },
     created: function created() {
@@ -31099,7 +31103,9 @@ Vue.component('people', {
             url: '/api/lead',
             method: 'GET'
         }).then(function (response) {
-            _this.leads = response.data;
+            _this.leads = response.data.data;
+            console.log(response.data);
+            _this.next_page = response.data.next_page_url ? response.data.next_page_url : false;
         }).bind(this);
     },
 
@@ -31107,6 +31113,25 @@ Vue.component('people', {
     methods: {
         show: function show(lead) {
             window.location = '/visitors/' + lead;
+        },
+        paginate: function paginate() {
+            var _this2 = this;
+
+            this.loading_icon = 'wb-loop';
+            this.loading_disable = 'disabled';
+            this.loading_label = 'Loading...';
+            this.$http({
+                url: this.next_page,
+                method: 'GET'
+            }).then(function (response) {
+                for (var i = 0; i < response.data.data.length; i++) {
+                    _this2.leads.push(response.data.data[i]);
+                }
+                _this2.next_page = response.data.next_page_url ? response.data.next_page_url : false;
+                _this2.loading_icon = 'wb-plus';
+                _this2.loading_disable = '';
+                _this2.loading_label = 'Load More';
+            }).bind(this);
         }
     }
 

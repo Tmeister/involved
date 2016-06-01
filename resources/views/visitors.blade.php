@@ -46,32 +46,40 @@ page-aside-fixed
                         <div class="vertical-align text-center height-500" v-if="!leads">
                             <div class="loader-default loader vertical-align-middle" data-type="default"></div>
                         </div>
-                        <table class="table table-hover table-striped" v-if="leads">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Country</th>
-                                <th>City</th>
-                                <th>First seen</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="lead in leads.data" data-user-id="@{{ lead.public_id }}" @click="show(lead.public_id);">
-                                <td><span>Visitor @{{lead.id}}</span></td>
-                                <td>
-                                    <span class="flag-icon flag-icon-@{{ lead.last_hit.geo.country_code | lowercase }} flag-icon-squared"></span>
-                                    <span class="padding-left-5">@{{ lead.last_hit.geo.country_name }}</span>
-                                </td>
-                                <td>
-                                    <span v-if="lead.last_hit.geo.city">@{{ lead.last_hit.geo.city  }}</span>
-                                    <span v-if="!lead.last_hit.geo.city"> - </span>
-                                </td>
-                                <td>
-                                    <span><i class="wb wb-time text-primary"></i> @{{ lead.first_hit.created_at | datetime }}</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="" v-if="leads">
+                            <table class="table table-hover table-striped" >
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Country</th>
+                                    <th>City</th>
+                                    <th>Last seen</th>
+                                    {{--<th>First seen</th>--}}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="lead in leads" data-user-id="@{{ lead.public_id }}" @click="show(lead.public_id);">
+                                    <td><span>Visitor @{{lead.id}}</span></td>
+                                    <td>
+                                        <span class="flag-icon flag-icon-@{{ lead.last_hit.geo.country_code | lowercase }} flag-icon-squared"></span>
+                                        <span class="padding-left-5">@{{ lead.last_hit.geo.country_name }}</span>
+                                    </td>
+                                    <td>
+                                        <span v-if="lead.last_hit.geo.city">@{{ lead.last_hit.geo.city  }}</span>
+                                        <span v-if="!lead.last_hit.geo.city"> - </span>
+                                    </td>
+                                    <td>
+                                        <span>@{{ lead.last_hit.created_at | datetime }}</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center padding-30" v-if="next_page">
+                                <button type="button" class="btn btn-raised btn-primary" @click="paginate();">
+                                    <i class="icon @{{ loading_icon }}" aria-hidden="true"></i> @{{ loading_label }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
