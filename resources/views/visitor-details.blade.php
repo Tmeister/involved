@@ -61,7 +61,7 @@
                                         <span><i class="wb text-muted wb-globe"></i> @{{ lead.first_hit.agent.browser }} @{{ lead.first_hit.agent.browser_version }}</span>
                                     </p>
                                     <p>
-                                        <span><i class="wb text-muted wb-link"></i> @{{ lead.first_hit.referer.url }}</span>
+                                        <span><i class="wb text-muted wb-link"></i> <a target="_blank" href="@{{ lead.first_hit.referer.url }}">@{{lead.first_hit.referer.url | cleanlink lead.first_hit.referer.host }}</a></span>
                                     </p>
                                 </div>
                                 <div class="">
@@ -77,7 +77,7 @@
                                         <span><i class="wb text-muted wb-globe"></i> @{{ lead.last_hit.agent.browser }} @{{ lead.last_hit.agent.browser_version }}</span>
                                     </p>
                                     <p>
-                                        <span><i class="wb text-muted wb-link"></i> @{{ lead.last_hit.referer.url }}</span>
+                                        <span><i class="wb text-muted wb-link"></i> <a target="_blank" href="@{{ lead.last_hit.referer.url }}">@{{lead.last_hit.referer.url | cleanlink lead.last_hit.referer.host }}</a></span>
                                     </p>
                                 </div>
                             </div>
@@ -90,21 +90,9 @@
                                     <div class="col-sm-8 col-xs-6">
                                         <div class="blue-grey-700 text-uppercase">Visitor Activity</div>
                                     </div>
-                                    {{--<div class="col-sm-4 col-xs-6">--}}
-                                        {{--<div class="row">--}}
-                                            {{--<div class="col-xs-6 pull-right">--}}
-                                                {{--<div class="counter counter-md">--}}
-                                                    {{--<div class="counter-number-group text-nowrap">--}}
-                                                        {{--<span class="counter-number text-info">@{{ hits.length }}</span>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="counter-label blue-grey-400">Pages Views</div>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
                                 </div>
-                                <div class="">
-                                    <table class="table table-hover table-striped" v-if="hits">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" v-if="hits">
                                         <thead>
                                             <tr>
                                                 <th>Action</th>
@@ -117,7 +105,11 @@
                                                 <td><span class="label label-primary">Page View</span></td>
                                                 {{--<td><span class="label label-success">Recovered</span></td>--}}
                                                 {{--<td><span class="label label-warning">Other</span></td>--}}
-                                                <td><span>@{{hit.referer.url}}</span></td>
+                                                <td>
+                                                    <span>
+                                                        <a target="_blank" href="@{{ hit.referer.url }}">@{{hit.referer.url | cleanlink hit.referer.host }}</a>
+                                                    </span>
+                                                </td>
                                                 <td><span>@{{ hit.created_at | datetime }}</span></td>
                                             </tr>
                                         </tbody>

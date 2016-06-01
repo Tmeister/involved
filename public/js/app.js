@@ -32038,6 +32038,20 @@ Vue.filter('datetime', function (value) {
     return moment.utc(value).local().format('MMMM D, YYYY [at] h:mm A');
 });
 
+Vue.filter('cleanlink', function (value, host) {
+
+    if (value == host) {
+        return '/';
+    }
+
+    var strip = value.substr(value.indexOf(host) + host.length, value.length);
+    if (strip.indexOf('?') > -1) {
+        strip = strip.substr(0, strip.indexOf('?'));
+    }
+
+    return strip;
+});
+
 /**
  * Format the given date into a relative time.
  */
