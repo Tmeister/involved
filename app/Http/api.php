@@ -13,7 +13,7 @@
 
 Route::group( [
 	'prefix'     => 'api',
-	'middleware' => ['cors', 'auth:api']
+	'middleware' => [ 'cors', 'auth:api' ]
 ], function () {
 
 	Route::get( 'test', function () {
@@ -29,5 +29,10 @@ Route::group( [
 		'hit',
 		'HitController',
 		[ 'only' => [ 'index', 'show', 'store' ] ] );
+
+	Route::resource(
+		'cart',
+		'CartController',
+		[ 'only' => [ 'store' ] ] );
 
 } );

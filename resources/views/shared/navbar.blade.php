@@ -1,4 +1,11 @@
-<nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+<spark-navbar
+        :user="user"
+        :teams="teams"
+        :current-team="currentTeam"
+        :has-unread-notifications="hasUnreadNotifications"
+        :has-unread-announcements="hasUnreadAnnouncements"
+        inline-template>
+    <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
                 data-toggle="menubar">
@@ -27,65 +34,76 @@
                         </i>
                     </a>
                 </li>
-                <li class="hidden-xs" id="toggleFullscreen">
-                    <a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
-                        <span class="sr-only">Toggle fullscreen</span>
-                    </a>
-                </li>
             </ul>
             <!-- End Navbar Toolbar -->
             <!-- Navbar Toolbar Right -->
             <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
-                       aria-expanded="false" role="button">
-                        <span class="flag-icon flag-icon-us"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem">
-                                <span class="flag-icon flag-icon-gb"></span> English</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem">
-                                <span class="flag-icon flag-icon-fr"></span> French</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem">
-                                <span class="flag-icon flag-icon-cn"></span> Chinese</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem">
-                                <span class="flag-icon flag-icon-de"></span> German</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem">
-                                <span class="flag-icon flag-icon-nl"></span> Dutch</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
                     <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
                        data-animation="scale-up" role="button">
-              <span class="avatar avatar-online">
-                <img src="http://getbootstrapadmin.com/remark/global/portraits/5.jpg" alt="...">
+                <span class="avatar avatar-online">
+                <img :src="user.photo_url">
                 <i></i>
               </span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Profile</a>
+                        <!-- Impersonation -->
+                        @if (session('spark:impersonator'))
+                            <li class="dropdown-header">Impersonation</li>
+
+                            <!-- Stop Impersonating -->
+                            <li>
+                                <a href="/spark/kiosk/users/stop-impersonating">
+                                    <i class="fa fa-fw fa-btn fa-user-secret"></i>Back To My Account
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+                        @endif
+
+                    <!-- Developer -->
+                        @if (Spark::developer(Auth::user()->email))
+                            @include('spark::nav.developer')
+                        @endif
+
+                    <!-- Subscription Reminders -->
+                        @include('spark::nav.subscriptions')
+
+                    <!-- Settings -->
+                        <li class="dropdown-header">Settings</li>
+
+                        <!-- Your Settings -->
+                        <li>
+                            <a href="/settings">
+                                <i class="fa fa-fw fa-btn fa-cog"></i>Your Settings
+                            </a>
                         </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem"><i class="icon wb-payment" aria-hidden="true"></i> Billing</a>
+
+                        @if (Spark::usesTeams())
+                        <!-- Team Settings -->
+                            @include('spark::nav.teams')
+                        @endif
+
+                        <li class="divider"></li>
+
+                        <!-- Support -->
+                        <li class="dropdown-header">Support</li>
+
+                        <li>
+                            <a @click.prevent="showSupportForm" style="cursor: pointer;">
+                                <i class="fa fa-fw fa-btn fa-paper-plane"></i>Email Us
+                            </a>
                         </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+
+                        <li class="divider"></li>
+
+                        <!-- Logout -->
+                        <li>
+                            <a href="/logout">
+                                <i class="fa fa-fw fa-btn fa-sign-out"></i>Logout
+                            </a>
                         </li>
-                        <li class="divider" role="presentation"></li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
-                        </li>
+
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -170,106 +188,106 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"
-                       data-animation="scale-up" role="button">
-                        <i class="icon wb-envelope" aria-hidden="true"></i>
-                        <span class="badge badge-info up">3</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
-                        <li class="dropdown-menu-header" role="presentation">
-                            <h5>MESSAGES</h5>
-                            <span class="label label-round label-info">New 3</span>
-                        </li>
-                        <li class="list-group" role="presentation">
-                            <div data-role="container">
-                                <div data-role="content">
-                                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left padding-right-10">
-                          <span class="avatar avatar-sm avatar-online">
-                            <img src="../../global/portraits/2.jpg" alt="..." />
-                            <i></i>
-                          </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">Mary Adams</h6>
-                                                <div class="media-meta">
-                                                    <time datetime="2016-06-17T20:22:05+08:00">30 minutes ago</time>
-                                                </div>
-                                                <div class="media-detail">Anyways, i would like just do it</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left padding-right-10">
-                          <span class="avatar avatar-sm avatar-off">
-                            <img src="../../global/portraits/3.jpg" alt="..." />
-                            <i></i>
-                          </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">Caleb Richards</h6>
-                                                <div class="media-meta">
-                                                    <time datetime="2016-06-17T12:30:30+08:00">12 hours ago</time>
-                                                </div>
-                                                <div class="media-detail">I checheck the document. But there seems</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left padding-right-10">
-                          <span class="avatar avatar-sm avatar-busy">
-                            <img src="../../global/portraits/4.jpg" alt="..." />
-                            <i></i>
-                          </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">June Lane</h6>
-                                                <div class="media-meta">
-                                                    <time datetime="2016-06-16T18:38:40+08:00">2 days ago</time>
-                                                </div>
-                                                <div class="media-detail">Lorem ipsum Id consectetur et minim</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left padding-right-10">
-                          <span class="avatar avatar-sm avatar-away">
-                            <img src="../../global/portraits/5.jpg" alt="..." />
-                            <i></i>
-                          </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">Edward Fletcher</h6>
-                                                <div class="media-meta">
-                                                    <time datetime="2016-06-15T20:34:48+08:00">3 days ago</time>
-                                                </div>
-                                                <div class="media-detail">Dolor et irure cupidatat commodo nostrud nostrud.</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-menu-footer" role="presentation">
-                            <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
-                                <i class="icon wb-settings" aria-hidden="true"></i>
-                            </a>
-                            <a href="javascript:void(0)" role="menuitem">
-                                See all messages
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li id="toggleChat">
-                    <a data-toggle="site-sidebar" href="javascript:void(0)" title="Chat" data-url="site-sidebar.tpl">
-                        <i class="icon wb-chat" aria-hidden="true"></i>
-                    </a>
-                </li>
+                {{--<li class="dropdown">--}}
+                    {{--<a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"--}}
+                       {{--data-animation="scale-up" role="button">--}}
+                        {{--<i class="icon wb-envelope" aria-hidden="true"></i>--}}
+                        {{--<span class="badge badge-info up">3</span>--}}
+                    {{--</a>--}}
+                    {{--<ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">--}}
+                        {{--<li class="dropdown-menu-header" role="presentation">--}}
+                            {{--<h5>MESSAGES</h5>--}}
+                            {{--<span class="label label-round label-info">New 3</span>--}}
+                        {{--</li>--}}
+                        {{--<li class="list-group" role="presentation">--}}
+                            {{--<div data-role="container">--}}
+                                {{--<div data-role="content">--}}
+                                    {{--<a class="list-group-item" href="javascript:void(0)" role="menuitem">--}}
+                                        {{--<div class="media">--}}
+                                            {{--<div class="media-left padding-right-10">--}}
+                          {{--<span class="avatar avatar-sm avatar-online">--}}
+                            {{--<img src="../../global/portraits/2.jpg" alt="..." />--}}
+                            {{--<i></i>--}}
+                          {{--</span>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="media-body">--}}
+                                                {{--<h6 class="media-heading">Mary Adams</h6>--}}
+                                                {{--<div class="media-meta">--}}
+                                                    {{--<time datetime="2016-06-17T20:22:05+08:00">30 minutes ago</time>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="media-detail">Anyways, i would like just do it</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</a>--}}
+                                    {{--<a class="list-group-item" href="javascript:void(0)" role="menuitem">--}}
+                                        {{--<div class="media">--}}
+                                            {{--<div class="media-left padding-right-10">--}}
+                          {{--<span class="avatar avatar-sm avatar-off">--}}
+                            {{--<img src="../../global/portraits/3.jpg" alt="..." />--}}
+                            {{--<i></i>--}}
+                          {{--</span>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="media-body">--}}
+                                                {{--<h6 class="media-heading">Caleb Richards</h6>--}}
+                                                {{--<div class="media-meta">--}}
+                                                    {{--<time datetime="2016-06-17T12:30:30+08:00">12 hours ago</time>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="media-detail">I checheck the document. But there seems</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</a>--}}
+                                    {{--<a class="list-group-item" href="javascript:void(0)" role="menuitem">--}}
+                                        {{--<div class="media">--}}
+                                            {{--<div class="media-left padding-right-10">--}}
+                          {{--<span class="avatar avatar-sm avatar-busy">--}}
+                            {{--<img src="../../global/portraits/4.jpg" alt="..." />--}}
+                            {{--<i></i>--}}
+                          {{--</span>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="media-body">--}}
+                                                {{--<h6 class="media-heading">June Lane</h6>--}}
+                                                {{--<div class="media-meta">--}}
+                                                    {{--<time datetime="2016-06-16T18:38:40+08:00">2 days ago</time>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="media-detail">Lorem ipsum Id consectetur et minim</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</a>--}}
+                                    {{--<a class="list-group-item" href="javascript:void(0)" role="menuitem">--}}
+                                        {{--<div class="media">--}}
+                                            {{--<div class="media-left padding-right-10">--}}
+                          {{--<span class="avatar avatar-sm avatar-away">--}}
+                            {{--<img src="../../global/portraits/5.jpg" alt="..." />--}}
+                            {{--<i></i>--}}
+                          {{--</span>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="media-body">--}}
+                                                {{--<h6 class="media-heading">Edward Fletcher</h6>--}}
+                                                {{--<div class="media-meta">--}}
+                                                    {{--<time datetime="2016-06-15T20:34:48+08:00">3 days ago</time>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="media-detail">Dolor et irure cupidatat commodo nostrud nostrud.</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</li>--}}
+                        {{--<li class="dropdown-menu-footer" role="presentation">--}}
+                            {{--<a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">--}}
+                                {{--<i class="icon wb-settings" aria-hidden="true"></i>--}}
+                            {{--</a>--}}
+                            {{--<a href="javascript:void(0)" role="menuitem">--}}
+                                {{--See all messages--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+                {{--<li id="toggleChat">--}}
+                    {{--<a data-toggle="site-sidebar" href="javascript:void(0)" title="Chat" data-url="site-sidebar.tpl">--}}
+                        {{--<i class="icon wb-chat" aria-hidden="true"></i>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
             </ul>
             <!-- End Navbar Toolbar Right -->
         </div>
@@ -290,3 +308,4 @@
         <!-- End Site Navbar Seach -->
     </div>
 </nav>
+</spark-navbar>

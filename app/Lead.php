@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model {
 
-	protected $fillable = array( 'team_id', 'public_id' );
+	protected $fillable = [ 'team_id', 'public_id' ];
 
 	public function team() {
 		return $this->belongsTo( Team::class );
