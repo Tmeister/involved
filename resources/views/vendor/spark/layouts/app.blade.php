@@ -57,7 +57,9 @@
     </head>
 
     <body class="site-navbar-small @yield('extra-body-classes')" v-cloak>
-        @include('shared/navbar')
+        @if (Auth::check())
+            @include('shared/navbar')
+        @endif
         @include('shared/menu')
         @yield('content')
         <footer class="site-footer">
