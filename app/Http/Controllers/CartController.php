@@ -49,8 +49,9 @@ class CartController extends Controller {
 			$cart->touch();
 
 			return [
-				'status' => 200,
-				'error'  => false
+				'status'  => 200,
+				'error'   => false,
+				'message' => 'Cart already saved'
 			];
 		}
 
@@ -81,11 +82,12 @@ class CartController extends Controller {
 		foreach ( $items as $item ) {
 			Log::info( $item );
 			$newItem = new Item( [
-				'cart_id'  => $cart->id,
-				'name'     => $item['name'],
-				'price'    => $item['price'],
-				'img_path' => $item['image'],
-				'quantity' => $item['quantity']
+				'cart_id'   => $cart->id,
+				'name'      => $item['name'],
+				'price'     => $item['price'],
+				'img_path'  => $item['image'],
+				'quantity'  => $item['quantity'],
+				'remote_id' => $item['remote_id']
 			] );
 
 			$newItem->save();
