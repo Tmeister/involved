@@ -53,6 +53,7 @@ class HitController extends Controller {
 
 		$hit             = new Hit();
 		$hit->lead_id    = $lead_id;
+		$hit->type       = $payload['type'];
 		$hit->session_id = $this->getSessionId( $payload );
 		$hit->agent_id   = $this->getAgentId();
 		$hit->device_id  = $this->getDeviceId();
@@ -92,7 +93,7 @@ class HitController extends Controller {
 	 * @return bool
 	 */
 	private function validateRequest( $request ) {
-		$required = [ 'lead_id', 'session_id', 'web_session' ];
+		$required = [ 'lead_id', 'session_id', 'web_session', 'type' ];
 		$payload  = json_decode( $request->getContent(), true );
 		foreach ( $required as $field ) {
 			if ( ! isset( $payload[ $field ] ) ) {

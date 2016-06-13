@@ -102,7 +102,9 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="hit in hits">
-                                                <td><span class="label label-primary">Page View</span></td>
+                                                <td>
+                                                    <span class="label label-primary">@{{ hit.type }}</span>
+                                                </td>
                                                 {{--<td><span class="label label-success">Recovered</span></td>--}}
                                                 {{--<td><span class="label label-warning">Other</span></td>--}}
                                                 <td>
