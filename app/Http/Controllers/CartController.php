@@ -26,6 +26,7 @@ class CartController extends Controller {
 	 * @return array|Response
 	 */
 	public function store( Request $request ) {
+		Log::info('Start Cart Store ');
 		$payload = json_decode( $request->getContent(), true );
 		$app_id  = $payload['app_id'] ? $payload['app_id'] : false;
 		$lead_id = $payload['lead_id'] ? $payload['lead_id'] : false;
@@ -36,6 +37,12 @@ class CartController extends Controller {
 		$lead    = Lead::where( 'public_id', '=', $lead_id )->firstOrFail();
 
 		if ( ! $app_id || ! $lead_id || ! $team || ! $hash || ! $total || ! $items ) {
+			Log::info('Cart NOT FOUND ');
+			Log::info('Hash: ' . $hash);
+			Log::info('$lead_id: ' . $lead_id);
+			Log::info('$team: ' . $team);
+			Log::info('$total: ' . $total);
+			Log::info('$items: ' . $items);
 			return response( 'Not found.', 401 );
 		}
 
@@ -66,6 +73,8 @@ class CartController extends Controller {
 		/**
 		 * Now the old carts are deleted, create a new one.
 		 */
+
+		Log::info('Creating Cart: ' . $hash);
 
 		$cart = new Cart( [
 			'hash'    => $hash,
