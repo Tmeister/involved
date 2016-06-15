@@ -36,13 +36,13 @@ class CartController extends Controller {
 		$team    = Team::where( 'public_id', '=', $app_id )->firstOrFail();
 		$lead    = Lead::where( 'public_id', '=', $lead_id )->firstOrFail();
 
-		if ( ! $app_id || ! $lead_id || ! $team || ! $hash || ! $total || ! $items ) {
+		if ( ! $app_id || ! $lead_id || ! $team || ! $hash  || ! $items ) {
 			Log::info('Cart NOT FOUND ');
 			Log::info('Hash: ' . $hash);
 			Log::info('$lead_id: ' . $lead_id);
 			Log::info('$team: ' . $team);
 			Log::info('$total: ' . $total);
-			Log::info('$items: ' . $items);
+			//Log::info('$items: ' . $items);
 			return response( 'Not found.', 401 );
 		}
 
